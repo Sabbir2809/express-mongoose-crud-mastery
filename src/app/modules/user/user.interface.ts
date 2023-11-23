@@ -25,6 +25,6 @@ interface IUser {
   isActive: boolean;
   hobbies: string[];
   address: Address;
-  orders: Order[];
+  orders?: Order[];
 }
 export default IUser;
