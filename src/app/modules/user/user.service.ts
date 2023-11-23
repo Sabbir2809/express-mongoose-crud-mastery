@@ -14,20 +14,20 @@ const getAllUsers = async (): Promise<IUser[]> => {
 };
 
 // Retrieve a specific user by ID
-const getSingleUser = async (id: string): Promise<IUser | null> => {
-  const result = await User.findById(id);
+const getSingleUser = async (userId: number): Promise<IUser | null> => {
+  const result = await User.findOne({ userId });
   return result;
 };
 
 // Update user information
-const updateUserInfo = async (id: string, userData: IUser): Promise<IUser | null> => {
-  const result = await User.findByIdAndUpdate(id, userData, { new: true, runValidators: true });
+const updateUserInfo = async (userId: number, userData: IUser) => {
+  const result = await User.updateOne({ userId }, userData);
   return result;
 };
 
 // Delete a user
-const deleteSingleUser = async (id: string): Promise<IUser | null> => {
-  const result = await User.findByIdAndDelete(id);
+const deleteSingleUser = async (userId: number) => {
+  const result = await User.deleteOne({ userId });
   return result;
 };
 
