@@ -2,20 +2,36 @@ import IUser from "./user.interface";
 import User from "./user.model";
 
 // Create a new user
-const createNewUser = async (userData: IUser): Promise<IUser> => {
+const createNewUser = async (userData: IUser) => {
   const result = await User.create(userData);
   return result;
 };
 
 // Retrieve a list of all users
-const getAllUsers = async (): Promise<IUser[]> => {
-  const result = await User.find();
+const getAllUsers = async () => {
+  const result = await User.find(
+    {},
+    {
+      username: 1,
+      fullName: 1,
+      age: 1,
+      email: 1,
+      address: 1,
+    }
+  );
   return result;
 };
 
 // Retrieve a specific user by ID
-const getSingleUser = async (userId: number): Promise<IUser | null> => {
-  const result = await User.findOne({ userId });
+const getSingleUser = async (userId: number) => {
+  const result = await User.findOne(
+    { userId },
+    {
+      _id: 0,
+      password: 0,
+      orders: 0,
+    }
+  );
   return result;
 };
 

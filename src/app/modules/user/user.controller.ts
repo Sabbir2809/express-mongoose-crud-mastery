@@ -1,24 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import { userServices } from "./user.service";
 
 const createNewUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
-    const result = await userServices.createNewUser(userData);
+    const newUser = await userServices.createNewUser(userData);
+
+    const responseData = {
+      userId: newUser.userId,
+      username: newUser.username,
+      fullName: newUser.fullName,
+      age: newUser.age,
+      email: newUser.email,
+      isActive: newUser.isActive,
+      hobbies: newUser.hobbies,
+      address: newUser.address,
+    };
 
     res.status(201).json({
       success: true,
       message: "User created successfully!",
-      data: result,
+      data: responseData,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
-      error: {
-        code: 404,
-        description: "User not found!",
-      },
+      error: error.message,
     });
   }
 };
@@ -32,14 +40,10 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: "Users fetched successfully!",
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
-      error: {
-        code: 404,
-        description: "User not found!",
-      },
+      error: error.message,
     });
   }
 };
@@ -49,19 +53,26 @@ const getSingleUser = async (req: Request, res: Response) => {
     const userId = Number(req.params.userId);
     const result = await userServices.getSingleUser(userId);
 
+    if (result === null) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+        error: {
+          code: 404,
+          description: "User not found!",
+        },
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "User fetched successfully!",
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
-      error: {
-        code: 404,
-        description: "User not found!",
-      },
+      error: error.message,
     });
   }
 };
@@ -72,19 +83,37 @@ const updateUserInfo = async (req: Request, res: Response) => {
     const userId = Number(req.params.userId);
     const result = await userServices.updateUserInfo(userId, userData);
 
+    if (result.matchedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+        error: {
+          code: 404,
+          description: "User not found!",
+        },
+      });
+    }
+
+    const responseData = {
+      userId: userData.userId,
+      username: userData.username,
+      fullName: userData.fullName,
+      age: userData.age,
+      email: userData.email,
+      isActive: userData.isActive,
+      hobbies: userData.hobbies,
+      address: userData.address,
+    };
+
     res.status(200).json({
       success: true,
       message: "User updated successfully!",
-      data: result,
+      data: responseData,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
-      error: {
-        code: 404,
-        description: "User not found!",
-      },
+      error: error.message,
     });
   }
 };
@@ -92,21 +121,28 @@ const updateUserInfo = async (req: Request, res: Response) => {
 const deleteSingleUser = async (req: Request, res: Response) => {
   try {
     const userId = Number(req.params.userId);
-    await userServices.deleteSingleUser(userId);
+    const result = await userServices.deleteSingleUser(userId);
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+        error: {
+          code: 404,
+          description: "User not found!",
+        },
+      });
+    }
 
     res.status(200).json({
       success: true,
       message: "User deleted successfully!",
       data: null,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
-      message: "User not found",
-      error: {
-        code: 404,
-        description: "User not found!",
-      },
+      error: error.message,
     });
   }
 };

@@ -1,4 +1,6 @@
+import bcrypt from "bcrypt";
 import { Schema, model } from "mongoose";
+import config from "../../config";
 import IUser from "./user.interface";
 
 const userSchema = new Schema<IUser>(
@@ -29,6 +31,18 @@ const userSchema = new Schema<IUser>(
   },
   { versionKey: false, timestamps: false }
 );
+
+// password hashing
+userSchema.pre("save", async function (next) {
+  this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt_rounds));
+  next();
+});
+
+// middleware
+// userSchema.pre(/^find/, function (this: Query<IUser, Document>, next) {
+//   this.find().projection({ password: 0 });
+//   next();
+// });
 
 const User = model("User", userSchema);
 export default User;
