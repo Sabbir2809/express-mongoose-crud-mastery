@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { Schema, model } from "mongoose";
 import config from "../../config";
-import IUser from "./user.interface";
+import { IUser } from "./user.interface";
 
 const userSchema = new Schema<IUser>(
   {
@@ -38,5 +38,5 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-const User = model("User", userSchema);
+const User = model<IUser>("User", userSchema);
 export default User;

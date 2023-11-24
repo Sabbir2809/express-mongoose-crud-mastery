@@ -149,6 +149,35 @@ const deleteSingleUser = async (req: Request, res: Response) => {
     });
   }
 };
+const addNewProduct = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.params.userId);
+    const orderData = req.body;
+    const result = await userServices.addNewProduct(userId, orderData);
+
+    if (result === null) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+        error: {
+          code: 404,
+          description: "User not found!",
+        },
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Order created successfully!",
+      data: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error,
+    });
+  }
+};
 
 export const userControllers = {
   createNewUser,
@@ -156,4 +185,5 @@ export const userControllers = {
   getSingleUser,
   updateUserInfo,
   deleteSingleUser,
+  addNewProduct,
 };

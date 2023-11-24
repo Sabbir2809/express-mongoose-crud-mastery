@@ -1,21 +1,21 @@
-type FullName = {
+export type FullName = {
   firstName: string;
   lastName: string;
 };
 
-type Address = {
+export type Address = {
   street: string;
   city: string;
   country: string;
 };
 
-type Order = {
+export type Order = {
   productName: string;
   price: number;
   quantity: number;
 };
 
-interface IUser {
+export interface IUser {
   userId: number;
   username: string;
   password: string;
@@ -27,4 +27,3 @@ interface IUser {
   address: Address;
   orders?: Order[];
 }
-export default IUser;
