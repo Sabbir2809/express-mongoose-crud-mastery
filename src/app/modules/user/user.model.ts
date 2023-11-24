@@ -5,27 +5,27 @@ import IUser from "./user.interface";
 
 const userSchema = new Schema<IUser>(
   {
-    userId: { type: Number, unique: true, required: [true, "userId is required"] },
-    username: { type: String, unique: true, lowercase: true, required: [true, "username is required"] },
-    password: { type: String, required: [true, "password is required"] },
+    userId: { type: Number, unique: true },
+    username: { type: String, unique: true, lowercase: true },
+    password: { type: String },
     fullName: {
-      firstName: { type: String, required: [true, "firstName is required"] },
-      lastName: { type: String, required: [true, "lastName is required"] },
+      firstName: { type: String },
+      lastName: { type: String },
     },
-    age: { type: Number, required: [true, "age is required"] },
-    email: { type: String, lowercase: true, required: [true, "email is required"] },
+    age: { type: Number },
+    email: { type: String, lowercase: true },
     isActive: { type: Boolean, default: true },
     hobbies: [{ type: String }],
     address: {
-      street: { type: String, required: [true, "street is required"] },
-      city: { type: String, required: [true, "city is required"] },
-      country: { type: String, required: [true, "country is required"] },
+      street: { type: String },
+      city: { type: String },
+      country: { type: String },
     },
     orders: [
       {
-        productName: { type: String, required: [true, "productName is required"] },
-        price: { type: Number, required: [true, "price is required"] },
-        quantity: { type: Number, required: [true, "quantity is required"] },
+        productName: { type: String },
+        price: { type: Number },
+        quantity: { type: Number },
       },
     ],
   },

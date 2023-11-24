@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import { userServices } from "./user.service";
 import userZodValidationSchema from "./user.zod.validation";
@@ -27,10 +26,10 @@ const createNewUser = async (req: Request, res: Response) => {
       message: "User created successfully!",
       data: responseData,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      error: error.message,
+      error: error,
     });
   }
 };
@@ -44,10 +43,10 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: "Users fetched successfully!",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      error: error.message,
+      error: error,
     });
   }
 };
@@ -73,10 +72,10 @@ const getSingleUser = async (req: Request, res: Response) => {
       message: "User fetched successfully!",
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      error: error.message,
+      error: error,
     });
   }
 };
@@ -114,10 +113,10 @@ const updateUserInfo = async (req: Request, res: Response) => {
       message: "User updated successfully!",
       data: responseData,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      error: error.message,
+      error: error,
     });
   }
 };
@@ -143,10 +142,10 @@ const deleteSingleUser = async (req: Request, res: Response) => {
       message: "User deleted successfully!",
       data: null,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       success: false,
-      error: error.message,
+      error: error,
     });
   }
 };
