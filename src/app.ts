@@ -1,19 +1,22 @@
 import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import router from "./app/modules/user/user.route";
+
+// Create Express application instance
 const app: Application = express();
 
-// application middleware
+// middleware
 app.use(express.json());
 app.use(cors());
 
-// application routes
+// routers
 app.use("/api/users", router);
 
+// health check root route
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
     status: true,
-    message: "Welcome to Express, Mongoose CRUD Mastery",
+    message: "Assignment-2: Welcome to Express, Mongoose CRUD Mastery",
   });
 });
 
