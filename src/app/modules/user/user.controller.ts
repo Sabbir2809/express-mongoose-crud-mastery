@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import { userServices } from "./user.service";
+import userZodValidationSchema from "./user.zod.validation";
 
 const createNewUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
-    const newUser = await userServices.createNewUser(userData);
+
+    const zodParseData = userZodValidationSchema.parse(userData);
+
+    const newUser = await userServices.createNewUser(zodParseData);
 
     const responseData = {
       userId: newUser.userId,
